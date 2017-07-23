@@ -1,4 +1,4 @@
-package akkaakka;
+package akkaakka.base;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akkaakka.Command;
 
 public class System {  
 	  
@@ -15,7 +16,7 @@ public class System {
 	  
 	    final ActorSystem actorSystem = ActorSystem.create("actor-system");  
 	  
-	    Thread.sleep(5000);  
+	    Thread.sleep(2000);  
 	  
 	    final ActorRef actorRef = actorSystem.actorOf(Props.create(SimpleActor. class), "simple-actor");  
 	  

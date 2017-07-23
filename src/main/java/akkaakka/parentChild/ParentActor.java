@@ -1,30 +1,37 @@
-package akkaakka;
+package akkaakka.parentChild;
 
 import java.util.UUID;
 
+import akka.actor.ActorRef;
+import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import akkaakka.Command;
+import akkaakka.Event;
 
-public class SimpleActor extends UntypedActor {  
+public class ParentActor extends UntypedActor {  
 	  
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);  
  
-    public SimpleActor() {  
-          log.info( "SimpleActor constructor");  
+    private final ActorRef childActor ;  
+ 
+    public ParentActor() {  
+          childActor = getContext().actorOf(Props.create(ChildActor. class), "child-actor");  
     }  
  
     @Override  
-    public void onReceive(Object msg) throws Exception {  
+    public void onReceive(Object msg ) throws Exception {  
  
           log.info( "Received Command: " + msg );  
+ 
           if (msg instanceof Command) {  
               final String data = ((Command) msg).getData();  
               final Event event = new Event(data, UUID.randomUUID().toString());  
-              // emmit an event somewhere...  
  
+              childActor.tell(event , getSelf());  
          } else if (msg .equals("echo" )) {  
               log.info( "ECHO!");  
          }  
     }  
-} 
+}
